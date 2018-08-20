@@ -10,4 +10,10 @@ defmodule Project.ChatManager do
     DynamicSupervisor.terminate_child(Project.DynamicSupervisor, pid)
   end
 
+  def list_chats do
+    DynamicSupervisor.which_children(Project.DynamicSupervisor)
+    |> Enum.map(&Registry.keys(Project.Registry, &1 |> elem(1)))
+    |> Enum.map(&List.first/1)
+  end
+
 end
